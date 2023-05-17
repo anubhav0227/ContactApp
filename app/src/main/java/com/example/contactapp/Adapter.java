@@ -2,6 +2,7 @@ package com.example.contactapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -69,10 +70,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                         .setView(message)
                         .setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
                             }
                         })
+                        .setNegativeButton("CANEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create();
+
+                sending_sms.show();
             }
         });
 
