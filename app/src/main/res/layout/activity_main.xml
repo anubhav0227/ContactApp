@@ -6,27 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MyContact"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="400dp"
+        android:layout_height="46dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="65dp">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/mContacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONTACT" />
+            android:text="CONTACT"
+            tools:layout_editor_absoluteX="193dp"
+            tools:layout_editor_absoluteY="-2dp" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/mRecents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RECENT CALLS" />
-
-
+            android:text="RECENT CALLS"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="66dp" />
 
 
     </com.google.android.material.tabs.TabLayout>
@@ -35,8 +56,22 @@
         android:id="@+id/mViewPage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.989"
+        app:layout_constraintStart_toEndOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/call" />
 </androidx.constraintlayout.widget.ConstraintLayout>
