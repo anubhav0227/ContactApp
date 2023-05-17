@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +64,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             public void onClick(View v) {
                 final EditText message = new EditText(v.getContext());
                 message.setHint("Type your Message.....");
+                message.setText("hello ");
+
+
 
 
                 final AlertDialog.Builder sending_sms=new AlertDialog.Builder(v.getContext());
@@ -71,6 +77,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                         .setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+                                sendSMS(modelArrayList.get(position).getNumber(),message.getText().toString());
 
                             }
                         })
@@ -84,6 +94,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
                 sending_sms.show();
             }
         });
+
+
+    }
+    private void sendSMS(String phnumber , String message){
+
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phnumber, null, message, null, null);
+
+            Toast.makeText(context, "Message sent to : " + phnumber, Toast.LENGTH_SHORT).show();
+        }
+
+        catch (Exception exception){
+            Toast.makeText(context, "Something went Wrong...", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
