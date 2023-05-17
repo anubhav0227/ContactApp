@@ -1,7 +1,9 @@
 package com.example.contactapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -36,7 +38,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.name.setText(modelArrayList.get(position).getName());
         holder.number.setText(modelArrayList.get(position).getNumber());
@@ -56,13 +58,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         holder.sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText message = new EditText(view.getContext());
+                final EditText message = new EditText(v.getContext());
                 message.setHint("Type your Message.....");
 
 
-                final AlertDialog.Builder sending_sms new AlertDialog.Builder(view.getContext());
+                final AlertDialog.Builder sending_sms=new AlertDialog.Builder(v.getContext());
 
-                sending_sms.setIcon(R.drawable.ic_baseline_sms_24);
+                sending_sms.setIcon(R.drawable.baseline_sms_24)
+                        .setTitle(" SENT TO :" + modelArrayList.get(position).getName())
+                        .setView(message)
+                        .setPositiveButton("SEND", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
             }
         });
 
