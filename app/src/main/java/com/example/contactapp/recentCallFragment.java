@@ -1,16 +1,22 @@
 package com.example.contactapp;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.CallLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class recentCallFragment extends Fragment {
@@ -41,6 +47,57 @@ public class recentCallFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(callAdapter);
 
+
+        getCallDetails(getContext(),callModelArrayList,callAdapter);
+
         return v;
+    }
+
+    private static  void String getCallDetails(Context context, ArrayList<CallModel> arrayList, CallAdapter callAdapter) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                null, null, null, CallLog.Calls.DATE + " DESC");
+        int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
+        while (cursor.moveToNext()) {
+            String phNumber = cursor.getString(number);
+            String callType = cursor.getString(type);
+            String callDate = cursor.getString(date);
+            Date callDayTime = new Date(Long.valueOf(callDate));
+
+            Format format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            String time = format.format(callDayTime);
+
+
+            String callDuration = cursor.getString(duration);
+            String dir = null;
+            int dircode = Integer.parseInt(callType);
+            switch (dircode) {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+            }
+
+             int min = Integer.parseInt(callDuration)/60;
+            int seconds = Integer.parseInt(callDuration) - min*60;
+
+
+            arrayList.add(new CallModel(phNumber, dir, java.lang.String.valueOf(min)+":"+ java.lang.String.valueOf(seconds), time));
+
+
+        }
+
+        callAdapter.notifyDataSetChanged();
+        cursor.close();
+
     }
 }
