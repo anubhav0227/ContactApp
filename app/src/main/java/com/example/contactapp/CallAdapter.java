@@ -1,6 +1,8 @@
 package com.example.contactapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,16 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder>{
         holder.calltype.setText(callModels.get(position).getCalltype());
         holder.duration.setText(callModels.get(position).getCallduration());
         holder.date.setText(callModels.get(position).getTime());
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(Intent.ACTION_CALL);
+                in.setData(Uri.parse("tel:"+callModels.get(position).getName()));
+                context.startActivity(in);
+            }
+        });
 
     }
 
