@@ -1,9 +1,12 @@
 package com.example.contactapp;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.net.CookieHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,4 +99,26 @@ public class ContactFragment extends Fragment {
 
         adapter.filterlist(filterlist);
     }
-}
+
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+            //Remove swiped item from list and notify the RecyclerView
+            int position = viewHolder.getAdapterPosition();
+            Intent in = new Intent(Intent.ACTION_CALL);
+            CookieHandler modelArrayList;
+            in.setData(Uri.parse("tel:"+modelArrayList.get(position).getNumber()));
+            getContext().startActivity(in);
+
+
+        }
+
+    }
