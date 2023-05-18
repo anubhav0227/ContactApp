@@ -8,13 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactFragment extends Fragment {
+
+    EditText editText;
 
    RecyclerView recyclerView;
    ArrayList<Model> arrayList;
@@ -29,12 +35,32 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contact,null);
 
         recyclerView = view.findViewById(R.id.recycler_view_contacts);
+        editText = view.findViewById(R.id.editTextTextPersonName);
         arrayList = new ArrayList<>();
         adapter = new Adapter(getContext(),arrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         readContacts();
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                filter(editable.toString());
+
+            }
+        });
 
 
         return view;
@@ -52,5 +78,21 @@ public class ContactFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
         phones.close();
+    }
+
+    private void filter(String tostring){
+        List<Model> filterlist = new ArrayList<>();
+
+
+        for (Model item : arrayList ) {
+
+            if (item.getName().toLowerCase().contains(tostring.toLowerCase())){
+                filterlist.add(item);
+            }
+
+
+        }
+
+        adapter.filterlist(filterlist);
     }
 }

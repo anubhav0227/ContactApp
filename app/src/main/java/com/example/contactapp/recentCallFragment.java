@@ -1,64 +1,103 @@
 package com.example.contactapp;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.CallLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link recentCallFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+
 public class recentCallFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    RecyclerView recyclerView;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    CallAdapter callAdapter;
+    ArrayList<CallModel> callModelArrayList;
 
-    public recentCallFragment() {
-        // Required empty public constructor
-    }
+    RecyclerView recyclerView;
+    ArrayList<CallModel> callModelArrayList;
+    CallAdapter callAdapter;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment recentCallFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static recentCallFragment newInstance(String param1, String param2) {
-        recentCallFragment fragment = new recentCallFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recent_call, container, false);
+        View v = inflater.inflate(R.layout.fragment_recent_call,null);
+        recyclerView = v.findViewById(R.id.recycler_recent);
+
+        callModelArrayList = new ArrayList<>();
+
+        callAdapter = new CallAdapter(getContext(),callModelArrayList);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(callAdapter);
+
+
+        getCallDetails(getContext(),callModelArrayList,callAdapter);
+
+        return v;
+    }
+
+    private static  void String getCallDetails(Context context, ArrayList<CallModel> arrayList, CallAdapter callAdapter) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                null, null, null, CallLog.Calls.DATE + " DESC");
+        int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
+        while (cursor.moveToNext()) {
+            String phNumber = cursor.getString(number);
+            String callType = cursor.getString(type);
+            String callDate = cursor.getString(date);
+            Date callDayTime = new Date(Long.valueOf(callDate));
+
+            Format format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            String time = format.format(callDayTime);
+
+
+            String callDuration = cursor.getString(duration);
+            String dir = null;
+            int dircode = Integer.parseInt(callType);
+            switch (dircode) {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+            }
+
+             int min = Integer.parseInt(callDuration)/60;
+            int seconds = Integer.parseInt(callDuration) - min*60;
+
+
+            arrayList.add(new CallModel(phNumber, dir, java.lang.String.valueOf(min)+":"+ java.lang.String.valueOf(seconds), time));
+
+
+        }
+
+        callAdapter.notifyDataSetChanged();
+        cursor.close();
+
     }
 }

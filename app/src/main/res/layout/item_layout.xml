@@ -42,7 +42,7 @@
         tools:layout_editor_absoluteY="66dp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/id_sms"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="356dp"
@@ -52,11 +52,11 @@
         app:srcCompat="@drawable/baseline_sms_24" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/_id_call"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="292dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="288dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_phone_24" />

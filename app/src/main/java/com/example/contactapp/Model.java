@@ -4,7 +4,7 @@ public class Model {
 
     String name, number;
 
-    public Model(String name) {
+    public Model(String name, String phoneNumber) {
         this.name = name;
         this.number = number;
     }
