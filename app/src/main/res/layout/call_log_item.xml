@@ -17,15 +17,41 @@
         tools:ignore="UnknownId" />
 
     <TextView
+        android:id="@+id/calltype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:ignore="UnknownId" />
+
+
+    <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="60dp"
         android:text="TextView"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/duration"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/duration"
         app:layout_constraintTop_toBottomOf="@+id/duration"
+        tools:ignore="UnknownId" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/date"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/date"
         tools:ignore="UnknownId" />
 
     <ImageView

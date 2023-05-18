@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,18 +34,33 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        holder.name.setText(callModels.get(position).getName());
+        holder.calltype.setText(callModels.get(position).getCalltype());
+        holder.duration.setText(callModels.get(position).getCallduration());
+        holder.date.setText(callModels.get(position).getTime());
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return  callModels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        TextView name , calltype , duration , date;
+        ImageView imageView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            name = itemView.findViewById(R.id.name);
+            calltype = itemView.findViewById(R.id.calltype);
+            duration = itemView.findViewById(R.id.duration);
+            date = itemView.findViewById(R.id.date);
+            imageView = itemView.findViewById(R.id.id_call);
+
         }
     }
 }
