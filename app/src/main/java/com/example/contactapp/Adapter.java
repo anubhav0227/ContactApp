@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
@@ -96,6 +97,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         });
 
 
+    }
+
+
+    public void filterlist(List<Model> filterlist){
+        modelArrayList = (ArrayList<Model>) filterlist;
+
+        notifyDataSetChanged();
     }
     private void sendSMS(String phnumber , String message){
 
